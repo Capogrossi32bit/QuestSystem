@@ -4,6 +4,7 @@
 #include "Engine/LocalPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Public/Component/QuestComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
@@ -14,6 +15,9 @@
 
 AQuestSystemCharacter::AQuestSystemCharacter()
 {
+
+	QuestComponent = CreateDefaultSubobject<UQuestComponent>(TEXT("Quest Component"));
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 		

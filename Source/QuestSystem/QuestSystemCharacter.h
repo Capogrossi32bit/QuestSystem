@@ -7,6 +7,7 @@
 #include "Logging/LogMacros.h"
 #include "QuestSystemCharacter.generated.h"
 
+class UQuestComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -68,6 +69,9 @@ protected:
 	void Look(const FInputActionValue& Value);
 
 public:
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "QuestSystem")
+	TObjectPtr<UQuestComponent> QuestComponent;
 
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
