@@ -1,5 +1,7 @@
 #include "Component/QuestComponent.h"
 #include "QuestDefinition.h"
+#include "QuestGameState.h"
+#include "Kismet/Gameplaystatics.h"
 
 UQuestComponent::UQuestComponent()
 {
@@ -15,7 +17,19 @@ UQuestComponent::UQuestComponent()
 void UQuestComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//Castear al gamestate
+	AQuestGameState* QuestGameState = Cast<AQuestGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	if (IsValid(QuestGameState)) 
+	{
+		QuestGameState->OnGameplayObjectiveEvent.AddDynamic(this, &UQuestComponent::HandleGameplayObjective);
+		UE_LOG(LogTemp, Warning, TEXT("QuestComponent vinculado al GameState"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No se encontro QuestGameState"));
+	}
+
 }
 
 
@@ -47,6 +61,19 @@ bool UQuestComponent::FindQuestByID(FName QuestID, FQuestRuntime& QuestData, int
 
 void UQuestComponent::AddQuest(UQuestDefinition* QuestDefinition)
 {
+	if (!IsValid(QuestDefinition)) 
+	{
+		return;
+	}
+	FQuestRuntime FoundQuest;
+	int32 QuestIndex = INDEX_NONE;
+
+	if (FindQuestByID(QuestDefinition->QuestID, FoundQuest, QuestIndex))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("La quest ya existe"));
+		return;
+	}
+
 	FQuestRuntime NewQuest;
 	
 	NewQuest.QuestID = QuestDefinition->QuestID;
@@ -71,6 +98,13 @@ void UQuestComponent::AddQuest(UQuestDefinition* QuestDefinition)
 
 void UQuestComponent::HandleGameplayObjective(EQuestObjectiveType ObjectiveType, FName TargetID, int32 Amount)
 {
+
+	UE_LOG(LogTemp, Warning,
+		TEXT("Evento recibido: Type=%d Target=%s Amount=%d"),
+		static_cast<int32>(ObjectiveType),
+		*TargetID.ToString(),
+		Amount
+	);
 	if (Amount <= 0)
 	{
 		return;

@@ -2,6 +2,9 @@
 
 #include "QuestSystemCharacter.h"
 #include "Engine/LocalPlayer.h"
+#include "Kismet/GameplayStatics.h"
+#include "Public/Actor/QuestGiver.h"
+#include "Public/Interface/QuestInteractInterface.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Public/Component/QuestComponent.h"
@@ -69,6 +72,7 @@ void AQuestSystemCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AQuestSystemCharacter::Look);
+		EnhancedInputComponent->BindAction(InteractAction,ETriggerEvent::Started,this,&AQuestSystemCharacter::TryInteract);
 	}
 	else
 	{
@@ -134,4 +138,20 @@ void AQuestSystemCharacter::DoJumpEnd()
 {
 	// signal the character to stop jumping
 	StopJumping();
+}
+
+void AQuestSystemCharacter::TryInteract()
+{
+	AActor* QuestGiver = UGameplayStatics::GetActorOfClass(GetWorld(),AQuestGiver::StaticClass());
+
+	if (!IsValid(QuestGiver))
+	{
+		return;
+	}
+
+	if (QuestGiver->GetClass()->ImplementsInterface(UQuestInteractInterface::StaticClass()))
+	{
+		IQuestInteractInterface::Execute_Interact(QuestGiver, this);
+	}
+
 }

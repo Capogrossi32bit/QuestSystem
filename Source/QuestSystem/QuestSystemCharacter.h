@@ -73,6 +73,9 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category = "QuestSystem")
 	TObjectPtr<UQuestComponent> QuestComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
+	TObjectPtr<class UInputAction> InteractAction;
+
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);
@@ -88,6 +91,9 @@ public:
 	/** Handles jump pressed inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+	void TryInteract();
 
 public:
 
