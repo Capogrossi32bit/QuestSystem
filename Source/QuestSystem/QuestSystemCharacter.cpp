@@ -142,16 +142,24 @@ void AQuestSystemCharacter::DoJumpEnd()
 
 void AQuestSystemCharacter::TryInteract()
 {
-	AActor* QuestGiver = UGameplayStatics::GetActorOfClass(GetWorld(),AQuestGiver::StaticClass());
+	TArray<AActor*> InteractableActors;
 
-	if (!IsValid(QuestGiver))
+	UGameplayStatics::GetAllActorsWithInterface(GetWorld(),UQuestInteractInterface::StaticClass(),InteractableActors);
+
+	for (AActor* Actor : InteractableActors)
 	{
-		return;
-	}
+		if (!IsValid(Actor))
+		{
+			continue;
+		}
 
-	if (QuestGiver->GetClass()->ImplementsInterface(UQuestInteractInterface::StaticClass()))
-	{
-		IQuestInteractInterface::Execute_Interact(QuestGiver, this);
-	}
+		// Distancia al jugador
+		const float Distance = FVector::Dist(GetActorLocation(),Actor->GetActorLocation());
 
+		if (Distance <= 200.f)
+		{
+			IQuestInteractInterface::Execute_Interact(Actor,this);
+			break;
+		}
+	}
 }
