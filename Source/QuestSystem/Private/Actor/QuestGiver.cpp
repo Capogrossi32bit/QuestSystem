@@ -37,7 +37,6 @@ void AQuestGiver::Interact_Implementation(AActor* Interactor)
     //Verificar que el componente exista
     if (!IsValid(QuestComponent))
     {
-        UE_LOG(LogTemp, Warning, TEXT("El actor no tiene QuestComponent"));
         return;
     }
 
@@ -47,7 +46,6 @@ void AQuestGiver::Interact_Implementation(AActor* Interactor)
         return;
     }
     QuestComponent->AddQuest(QuestDefinition);
-    UE_LOG(LogTemp, Warning,TEXT("Interaccion con QuestGiver: %s"),*QuestDefinition->QuestID.ToString());
 
 }
 

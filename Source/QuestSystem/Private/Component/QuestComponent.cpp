@@ -23,13 +23,8 @@ void UQuestComponent::BeginPlay()
 	if (IsValid(QuestGameState)) 
 	{
 		QuestGameState->OnGameplayObjectiveEvent.AddDynamic(this, &UQuestComponent::HandleGameplayObjective);
-		UE_LOG(LogTemp, Warning, TEXT("QuestComponent vinculado al GameState"));
+		
 	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No se encontro QuestGameState"));
-	}
-
 }
 
 
@@ -70,7 +65,6 @@ void UQuestComponent::AddQuest(UQuestDefinition* QuestDefinition)
 
 	if (FindQuestByID(QuestDefinition->QuestID, FoundQuest, QuestIndex))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("La quest ya existe"));
 		return;
 	}
 
@@ -99,12 +93,6 @@ void UQuestComponent::AddQuest(UQuestDefinition* QuestDefinition)
 void UQuestComponent::HandleGameplayObjective(EQuestObjectiveType ObjectiveType, FName TargetID, int32 Amount)
 {
 
-	UE_LOG(LogTemp, Warning,
-		TEXT("Evento recibido: Type=%d Target=%s Amount=%d"),
-		static_cast<int32>(ObjectiveType),
-		*TargetID.ToString(),
-		Amount
-	);
 	if (Amount <= 0)
 	{
 		return;

@@ -40,7 +40,6 @@ void AAQuestObjectiveActor::ReportObjective()
 
     QuestGameState->ReportGameplayObjective(ObjectiveType, TargetID, Amount);
 
-    UE_LOG(LogTemp, Warning, TEXT("Objective reported: %s"), *TargetID.ToString());
 }
 
 void AAQuestObjectiveActor::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, 
@@ -69,10 +68,6 @@ void AAQuestObjectiveActor::OnSphereBeginOverlap(UPrimitiveComponent* Overlapped
 
 void AAQuestObjectiveActor::Interact_Implementation(AActor* Interactor)
 {
-    UE_LOG(LogTemp, Warning,
-        TEXT("Interact recibido por: %s"),
-        *GetName()
-    );
 
     if(!IsValid(Interactor) || !InteractionSphere->IsOverlappingActor(Interactor))
     {
