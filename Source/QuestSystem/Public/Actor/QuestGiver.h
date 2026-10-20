@@ -21,16 +21,16 @@ public:
 
 	//PROPERTIES
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Components")
 	TObjectPtr<USceneComponent> SceneRoot;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UStaticMeshComponent> QuestMesh;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<USphereComponent> InteractionSphere;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	TObjectPtr<UQuestDefinition> QuestDefinition = nullptr;
 
 	//FUNCTIONS
